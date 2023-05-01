@@ -13,15 +13,13 @@ router.use((req, res, next) =>
 });
 
 // Index route (GET HTTP VERB)
-// This route will catch GET requests to /comment/ and respond with all the comments
+// This route will catch GET requests to /contact/ and respond with all the contacts
 router.get('/', async (req, res) => 
 { 
 	try 
 	{
-		const comment = await db.Comment.find({})
-		.populate('post_id').populate('owner', '-_id')
-		.exec()
-		res.status(200).json(comment)
+		const contact = await db.Contact.find({})
+		res.status(200).json(contact)
 	} catch (error) 
 	{
 		return next(error)
@@ -29,15 +27,13 @@ router.get('/', async (req, res) =>
 });
 
 // Show route (GET HTTP VERB)
-// This route will catch GET requests to /comment/index/ and respond with a single comment
+// This route will catch GET requests to /contact/index/ and respond with a single contact
 router.get('/:id', async (req, res, next) => 
 { 
 	try 
 	{
-		const foundComment = await db.Comment.findById(req.params.id)
-		.populate('post_id').populate('owner', '-_id')
-		.exec();
-		res.status(200).json(foundComment)
+		const foundContact = await db.Contact.findById(req.params.id)
+		res.status(200).json(foundContact)
 	} catch (error) 
 	{
 		return next(error)
@@ -45,16 +41,14 @@ router.get('/:id', async (req, res, next) =>
 });
 
 // Create route (POST HTTP VERB)
-// Send data to create a new comment
+// Send data to create a new contact
 // Passport will verify the the token passed with the request's Authorization headers and set the current user for the request (req.user).
 router.post("/", async (req, res, next) => 
 {
   try 
 	{
-		const owner = req.user._id
-		req.body.owner = owner
-    const newComment = await db.Comment.create(req.body);
-    res.status(201).json(newComment);
+    const newContact = await db.Contact.create(req.body);
+    res.status(201).json(newContact);
   } catch (err) 
 	{
     res.status(400).json({error: err.message,});
@@ -62,18 +56,17 @@ router.post("/", async (req, res, next) =>
 });
 
 // Update route (PUT HTTP VERB)
-// Send data to update comment
+// Send data to update contact
 router.put("/:id", async (req, res) => 
 {
 	try 
 	{
-		handleValidateOwnership(req, await db.Comment.findById(req.params.id))
-		const updatedComment = await db.Comment.findByIdAndUpdate(
+		const updatedContact = await db.Contact.findByIdAndUpdate(
 			req.params.id,
 			req.body,
 			{ new: true }
 		)
-		res.status(200).json(updatedComment)
+		res.status(200).json(updatedContact)
 	} catch (error) 
 	{
 		res.status(400).json({error: error.message})
@@ -81,14 +74,13 @@ router.put("/:id", async (req, res) =>
 })
 
 // Destroy route (DELETE HTTP VERB)
-// Send data to delete comment
+// Send data to delete contact
 router.delete("/:id", async (req, res, next) => 
 {
   try 
 	{
-    handleValidateOwnership(req, await db.Comment.findById(req.params.id));
-    const deletedComment = await db.Comment.findByIdAndRemove(req.params.id);
-    res.status(200).json(deletedComment);
+    const deletedContact = await db.Contact.findByIdAndRemove(req.params.id);
+    res.status(200).json(deletedContact);
   } catch (err) 
 	{
     res.status(400).json({ error: err.message });
