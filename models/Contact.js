@@ -3,13 +3,12 @@ const Schema = mongoose.Schema;
 
 const ContactSchema = new Schema(
 {
-  contact: {type: String, required: [true, "need an contact"]},
-  post_id: 
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Post',
-    required: true
-  }
+  name: {type: String, required: [true, "need to include a name"]},
+  email: {type: String, required: [true, "need to include email"]},
+  phone: {type: String, required: [true, "need a phone number"]},
+  location: {type: String},
+  message: {type: String},
+ 
 }, {timestamps: true})
 
 const Contact = mongoose.model("Contact", ContactSchema)
