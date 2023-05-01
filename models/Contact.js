@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const ContactSchema = new Schema(
 {
-  name: {type: String, required: [true, "need to include a name"]},
-  email: {type: String, required: [true, "need to include email"]},
-  phone: {type: String, required: [true, "need a phone number"]},
+  name: {type: String, required: [true, "include a name"]},
+  // email: {type: String, required: [true, "include email"]},
+  phone: {type: String, required: [true, "include phone number"]},
   location: {type: String},
   message: {type: String},
  

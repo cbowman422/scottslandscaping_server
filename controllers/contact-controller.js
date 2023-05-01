@@ -12,6 +12,7 @@ router.use((req, res, next) =>
 	next();
 });
 
+
 // Index route (GET HTTP VERB)
 // This route will catch GET requests to /contact/ and respond with all the contacts
 router.get('/', async (req, res) => 
