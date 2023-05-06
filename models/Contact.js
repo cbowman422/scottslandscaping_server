@@ -6,7 +6,7 @@ const ContactSchema = new Schema(
   name: {type: String, required: [true, "include a name"]},
   // email: {type: String, required: [true, "include email"]},
   phone: {type: String, required: [true, "include phone number"]},
-  location: {type: String},
+  // location: {type: String},
   message: {type: String},
  
 }, {timestamps: true})
