@@ -17,6 +17,7 @@ const express = require('express');
 // Import controllers and set them as variables
 
 const contactController = require('./controllers/contact-controller')
+const careerController = require('./controllers/career-controller')
 
 // Create application object as express
 const app = express();
@@ -32,6 +33,7 @@ app.use(express.json())
 
 // Controller middleware
 app.use('/contact', contactController)
+app.use('/career', careerController)
 
 ///////////////////////////////
 // ROUTES

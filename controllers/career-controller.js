@@ -14,14 +14,14 @@ router.use((req, res, next) =>
 
 
 // Create route (POST HTTP VERB)
-// Send data to create a new contact
+// Send data to create a new Career
 // Passport will verify the the token passed with the request's Authorization headers and set the current user for the request (req.user).
 router.post("/", async (req, res, next) => 
 {
   try 
 	{
-    const newContact = await db.Contact.create(req.body);
-    res.status(201).json(newContact);
+    const newCareer = await db.Career.create(req.body);
+    res.status(201).json(newCareer);
   } catch (err) 
 	{
     res.status(400).json({error: err.message,});
