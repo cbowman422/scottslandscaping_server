@@ -1,31 +1,43 @@
 // Imports
 const express = require('express')
 const router = express.Router()
+const nodemailer = require('nodemailer')
 
 // Import models through models/index.js
 const db = require('../models')
 
-// Middleware to print out the HTTP method and the URL path for every request to our terminal
-router.use((req, res, next) => 
-{    
-	console.log(`${req.method} ${req.originalUrl}`);    
-	next();
-});
+// Create a transporter for sending email
+const transporter = nodemailer.createTransport({
+  host: 'smtp.example.com', // replace with your SMTP host - single connection
+  port: 587, // replace with your SMTP port
+  auth: {
+    user: 'user@example.com', // replace with your email address
+    pass: 'password' // replace with your email password
+  }
+})
 
-
-// Create route (POST HTTP VERB)
-// Send data to create a new contact
-// Passport will verify the the token passed with the request's Authorization headers and set the current user for the request (req.user).
 router.post("/", async (req, res, next) => 
 {
   try 
-	{
+  {
     const newContact = await db.Contact.create(req.body);
+    // Send email notification
+    const mailOptions = {
+      from: 'user@example.com', // replace with your email address
+      to: 'admin@example.com', // replace with the email address you want to send notification to
+      subject: 'New contact form submission',
+      text: `A new contact form has been submitted:\nName: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
+    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log(`Email sent: ${info.response}`)
+      }
+    })
     res.status(201).json(newContact);
   } catch (err) 
-	{
+  {
     res.status(400).json({error: err.message,});
   }
 });
-
-module.exports = router
